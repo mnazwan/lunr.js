@@ -1415,6 +1415,8 @@ lunr.TokenSet.fromClause = function (clause) {
   if ('editDistance' in clause) {
     return lunr.TokenSet.fromFuzzyString(clause.term, clause.editDistance)
   } else {
+    if (Array.isArray(clause.term))
+      return lunr.TokenSet.fromArray(clause.term)
     return lunr.TokenSet.fromString(clause.term)
   }
 }
@@ -2009,7 +2011,7 @@ lunr.Index.prototype.query = function (fn) {
        * simplest way to do this is to re-use the clause object but mutate
        * its term property.
        */
-      clause.term = term
+      clause.term = term.split(',').sort()
 
       /*
        * From the term in the clause we create a token set which will then
