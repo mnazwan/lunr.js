@@ -1413,6 +1413,8 @@ lunr.TokenSet.fromArray = function (arr) {
  */
 lunr.TokenSet.fromClause = function (clause) {
   if ('editDistance' in clause) {
+    if (Array.isArray(clause.term))
+      clause.term = clause.term[0]
     return lunr.TokenSet.fromFuzzyString(clause.term, clause.editDistance)
   } else {
     if (Array.isArray(clause.term))
